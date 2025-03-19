@@ -874,3 +874,8 @@ li input[type="checkbox"] {
 .filter-search-container button {
     transform: translateX(-0px);
 }
+
+/* Adjust plus button vertical alignment in the filter-search container */
+.filter-search-container button {
+    transform: translateY(-3px);
+}
