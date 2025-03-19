@@ -910,3 +910,9 @@ li input[type="checkbox"] {
 .filter-search-container button {
     transform: translateY(-4px);
 }
+
+/* Scale the plus button to 110% with bottom-right as origin */
+.filter-search-container button {
+    transform: scale(1.1);
+    transform-origin: bottom right;
+}
