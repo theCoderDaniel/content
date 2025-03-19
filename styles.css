@@ -905,3 +905,8 @@ li input[type="checkbox"] {
 .filter-search-container button {
     transform: translateY(-3px);
 }
+
+/* Shift the plus button 5px upward */
+.filter-search-container button {
+    transform: translateY(-8px);
+}
