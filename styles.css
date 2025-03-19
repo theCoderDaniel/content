@@ -276,11 +276,31 @@ li input[type="checkbox"] {
 }
 
 #ideas-table td:nth-child(2) {
-    width: calc(100% - 40px - 100px); /* Restliche Breite für die Videoidee-Spalte */
+    width: calc(100% - 40px - 200px); /* Restliche Breite für die Videoidee-Spalte */
+}
+
+#ideas-table td:nth-child(3) {
+    width: 100px; /* Breite für die Status-Spalte */
 }
 
 #ideas-table td:last-child {
     width: 100px; /* Breite für die Aktionen-Spalte */
+}
+
+#ideas-table select {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;
+    color: #3700b3;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: border-color 0.3s ease;
+}
+
+#ideas-table select:hover {
+    border-color: #6200ea;
 }
 
 .text-container {
