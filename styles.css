@@ -338,7 +338,7 @@ li input[type="checkbox"] {
     border: 1px solid #ccc;
     border-radius: 4px;
     width: 100%;
-    max-width: 200px; /* Adjusted width */
+    max-width: 150px; /* Adjusted width */
     margin-bottom: 1rem;
     font-size: 1rem;
 }
