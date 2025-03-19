@@ -470,11 +470,11 @@ li input[type="checkbox"] {
 
 /* Alternative Flex Layout for Filter, Search, and Plus Button */
 .filter-search-container {
-    display: flex;
-    flex-wrap: nowrap;       /* Prevent wrapping */
+    display: flex !important;
+    flex-direction: row;
     align-items: center;
-    gap: 0.25rem;           /* Reduced gap between elements */
-    margin-bottom: 0.5rem;   /* Reduced bottom margin */
+    gap: 0.25rem;
+    margin-bottom: 0.5rem;
 }
 
 .filter-search-container select {
@@ -573,9 +573,22 @@ li input[type="checkbox"] {
         flex-direction: row;
         align-items: center;
         gap: 0.5rem;
+        margin-bottom: 0.5rem;
+        width: 100%;
+        padding: 0.5rem;
+        box-sizing: border-box;
+    }
+    .filter-search-container select {
+        flex: 0 0 70px;
+    }
+    .filter-search-container input {
+        flex: 1;
+        min-width: 0;
     }
     .filter-search-container button {
-        margin-top: 0 !important;
+        flex: 0 0 auto;
+        transform: none;
+        margin-top: 0;
     }
 }
 
