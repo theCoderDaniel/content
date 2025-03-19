@@ -338,7 +338,70 @@ li input[type="checkbox"] {
     border: 1px solid #ccc;
     border-radius: 4px;
     width: 100%;
-    max-width: 150px; /* Adjusted width */
+    max-width: 200px; /* Adjusted width */
     margin-bottom: 1rem;
     font-size: 1rem;
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 0 1rem;
+    }
+
+    header {
+        padding: 1rem;
+        font-size: 1.2rem;
+    }
+
+    main {
+        width: 100%;
+        margin: 1rem auto;
+        padding: 1rem;
+        border-radius: 8px;
+    }
+
+    h2 {
+        font-size: 1.2rem;
+    }
+
+    form input, form button {
+        font-size: 0.9rem;
+        padding: 0.5rem;
+    }
+
+    .buttons {
+        flex-direction: column;
+        padding: 1rem 0;
+    }
+
+    .buttons button {
+        width: 100%;
+        margin: 0.5rem 0;
+        font-size: 0.9rem;
+    }
+
+    .popup-content {
+        padding: 1rem;
+        max-width: 90%;
+    }
+
+    .popup .close {
+        font-size: 1.5rem;
+    }
+
+    .btn-group button {
+        padding: 0.5rem;
+        font-size: 0.75rem;
+    }
+
+    #ideas-table th, #ideas-table td {
+        padding: 0.5rem;
+        font-size: 0.9rem;
+    }
+
+    #filter-select, #search-input {
+        width: 100%;
+        max-width: 100%;
+        margin-bottom: 0.5rem;
+    }
 }
