@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Content Creator PWA</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <h1>Videoideen</h1>
+    </header>
+    <main>
+        <section id="ideas-list">
+            <h2>Alle Videoideen</h2>
+            <label for="filter-select">Filter:</label>
+            <select id="filter-select">
+                <option value="all">Alle</option>
+                <option value="completed">Erledigt</option>
+                <option value="incomplete">Nicht erledigt</option>
+            </select>
+            <input type="text" id="search-input" placeholder="Suche nach Ideen...">
+            <table id="ideas-table">
+                <thead>
+                    <tr>
+                        <th></th> <!-- Checkbox column -->
+                        <th>Videoidee</th>
+                        <th>Aktionen</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Dynamisch hinzugefügte Zeilen -->
+                </tbody>
+            </table>
+        </section>
+        <div class="buttons">
+            <button id="add-idea-button">Neue Idee hinzufügen</button>
+            <button id="trash-icon">&#128465;</button>
+        </div>
+    </main>
+    <div id="add-idea-popup" class="popup hidden">
+        <div class="popup-content">
+            <span class="close" id="close-add-idea">&times;</span>
+            <h2>Neue Idee hinzufügen</h2>
+            <form id="idea-form">
+                <label for="idea-text">Idee:</label>
+                <input type="text" id="idea-text" required>
+                <label for="idea-link">Link:</label>
+                <input type="url" id="idea-link" required>
+                <button type="submit">Hinzufügen</button>
+            </form>
+        </div>
+    </div>
+    <div id="trash-popup" class="popup hidden">
+        <div class="popup-content">
+            <span class="close" id="close-trash">&times;</span>
+            <h2>Papierkorb</h2>
+            <ul id="trash">
+                <!-- Abgehakte Ideen werden hier dynamisch hinzugefügt -->
+            </ul>
+        </div>
+    </div>
+    <div id="video-popup" class="popup hidden">
+        <div class="popup-content">
+            <span class="close" id="close-video-popup">&times;</span>
+            <h2 id="video-title"></h2>
+            <button id="go-to-video">Zum Video</button>
+        </div>
+    </div>
+    <script src="app.js"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js')
+                    .then((registration) => {
+                        console.log('Service Worker registered with scope:', registration.scope);
+                    }, (err) => {
+                        console.log('Service Worker registration failed:', err);
+                    });
+            });
+        }
+    </script>
+</body>
+</html>

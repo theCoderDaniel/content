@@ -1,0 +1,344 @@
+body {
+    font-family: 'Roboto', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f2f5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+header {
+    background: linear-gradient(45deg, #6200ea, #3700b3);
+    color: #fff;
+    padding: 1.5rem;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+header button {
+    background-color: #3700b3;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+header button:hover {
+    background-color: #6200ea;
+}
+
+main {
+    width: 90%;
+    max-width: 800px;
+    margin: 2rem auto;
+    background: #fff;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    margin-bottom: 80px;
+}
+
+h2 {
+    color: #3700b3;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+form label {
+    margin-top: 1rem;
+    font-weight: bold;
+}
+
+form input {
+    padding: 0.75rem;
+    margin-top: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+form button {
+    margin-top: 1rem;
+    padding: 0.75rem;
+    background-color: #6200ea;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-size: 1rem;
+}
+
+form button:hover {
+    background-color: #3700b3;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+li:last-child {
+    border-bottom: none;
+}
+
+li input[type="checkbox"] {
+    margin-right: 1rem;
+}
+
+.hidden {
+    display: none;
+}
+
+#trash-list {
+    margin-top: 2rem;
+}
+
+.buttons {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    background-color: #fff;
+    padding: 0.5rem 0;
+    box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+}
+
+.buttons button {
+    background-color: #6200ea;
+    color: #fff;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 0 0.5rem;
+    transition: background-color 0.3s ease;
+    font-size: 1rem;
+}
+
+.buttons button:hover {
+    background-color: #3700b3;
+}
+
+.popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6); /* dunklerer Hintergrund */
+    display: none; /* Standardmäßig ausgeblendet */
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.popup-content {
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    padding: 2rem;
+    width: 90%;
+    max-width: 450px;
+    position: relative;
+    animation: popIn 0.3s ease-out;
+    white-space: normal;       /* Erlaubt Zeilenumbrüche */
+    word-wrap: break-word;     /* Langer Text wird umgebrochen */
+}
+
+@keyframes popIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.popup .close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 2rem;
+    color: #6200ea;
+    cursor: pointer;
+}
+
+/* Optional: besondere Rahmenfarbe für die Popups "Neue Idee" und "Papierkorb" */
+#add-idea-popup .popup-content,
+#trash-popup .popup-content {
+    border: 2px solid #6200ea;
+}
+
+#video-popup h2 {
+    color: #3700b3;
+    margin-bottom: 1rem;
+}
+
+#go-to-video {
+    background-color: #6200ea;
+    color: #fff;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 1rem;
+}
+
+#go-to-video:hover {
+    background-color: #3700b3;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.btn-group {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: flex-end; /* Buttons rechtsbündig ausrichten */
+    align-items: center; /* Vertikal zentrieren */
+    margin-top: 0.5rem; /* Weniger Abstand zwischen dem Text und den Buttons */
+}
+
+.btn-group button {
+    background-color: #6200ea;
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1rem; /* Kleinere Größe der Buttons */
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 0.875rem; /* Kleinere Schriftgröße */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-group button:hover {
+    background-color: #3700b3;
+}
+
+#ideas-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1rem;
+}
+
+#ideas-table th, #ideas-table td {
+    border: 1px solid #e0e0e0;
+    padding: 0.75rem;
+    text-align: left;
+}
+
+#ideas-table th {
+    background-color: #f0f0f0;
+    color: #3700b3;
+    font-weight: bold;
+}
+
+#ideas-table td:first-child {
+    width: 40px; /* Breite für die Checkbox-Spalte */
+    text-align: center;
+}
+
+#ideas-table td:nth-child(2) {
+    width: calc(100% - 40px - 100px); /* Restliche Breite für die Videoidee-Spalte */
+}
+
+#ideas-table td:last-child {
+    width: 100px; /* Breite für die Aktionen-Spalte */
+}
+
+.text-container {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+    word-wrap: break-word; /* Langer Text wird umgebrochen */
+    max-width: 100%; /* Begrenzung der maximalen Breite */
+}
+
+#trash .btn-group {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1.5rem; /* Mehr Abstand zwischen dem Text und den Buttons */
+    justify-content: flex-end; /* Buttons rechtsbündig ausrichten */
+}
+
+#trash .btn-group button {
+    background-color: #6200ea;
+    color: #fff;
+    border: none;
+    padding: 0.75rem 1.5rem; /* Ursprüngliche Größe der Buttons */
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#trash .btn-group button:hover {
+    background-color: #3700b3;
+}
+
+.completed {
+    text-decoration: line-through;
+    color: #888;
+}
+
+#filter-select {
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;
+    color: #3700b3;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    cursor: pointer;
+    transition: border-color 0.3s ease;
+}
+
+#filter-select:hover {
+    border-color: #6200ea;
+}
+
+#search-input {
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+    max-width: 200px; /* Adjusted width */
+    margin-bottom: 1rem;
+    font-size: 1rem;
+}
