@@ -566,6 +566,17 @@ li input[type="checkbox"] {
         font-size: 0.75rem;
         padding: 0.5rem;
     }
+
+    /* Force the filter/search container items in one row and remove extra top margin on the plus button */
+    .filter-search-container {
+        display: flex !important;
+        flex-direction: row;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    .filter-search-container button {
+        margin-top: 0 !important;
+    }
 }
 
 /* Updated layout for filter-search-container (all elements in one row) */
@@ -850,4 +861,3 @@ li input[type="checkbox"] {
 .filter-search-container button {
     transform: translateX(-0px);
 }
-
