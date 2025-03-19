@@ -590,6 +590,32 @@ li input[type="checkbox"] {
         transform: none;
         margin-top: 0;
     }
+
+    /* Re-align container items and center vertically */
+    .filter-search-container {
+        display: flex !important;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.5rem;
+        padding: 0.5rem;
+        box-sizing: border-box;
+    }
+    .filter-search-container select {
+        flex: 0 0 70px;
+    }
+    .filter-search-container input {
+        flex: 1;
+        min-width: 0;
+        vertical-align: middle;
+    }
+    .filter-search-container button {
+        flex: 0 0 auto;
+        vertical-align: middle;
+        margin: 0;
+        transform: none;
+        line-height: 1;
+    }
 }
 
 /* Updated layout for filter-search-container (all elements in one row) */
