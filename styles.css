@@ -1,3 +1,13 @@
+:root {
+    --base-font-size: 1rem;
+    --small-font-size: 0.875rem;
+    --large-font-size: 1.25rem;
+    --primary-color: #3B82F6;
+    --accent-color: #2563EB;
+    --padding-base: 1rem;
+    --spacing: 1rem;
+}
+
 body {
     font-family: 'Roboto', Arial, sans-serif;
     margin: 0;
@@ -6,12 +16,13 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    font-size: var(--base-font-size);
 }
 
 header {
     background: linear-gradient(45deg, #6200ea, #3700b3);
     color: #fff;
-    padding: 1.5rem;
+    padding: var(--padding-base);
     width: 100%;
     text-align: center;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
@@ -34,12 +45,22 @@ header button:hover {
     background-color: #6200ea;
 }
 
+header h1 {
+    font-size: var(--large-font-size);
+}
+
+.header-nav button {
+    padding: 0.75rem 1.5rem;
+    font-size: var(--base-font-size);
+    margin: var(--spacing);
+}
+
 main {
     width: 90%;
     max-width: 800px;
     margin: 2rem auto;
     background: #fff;
-    padding: 2rem;
+    padding: 2rem 1rem;
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     margin-bottom: 80px;
@@ -63,14 +84,14 @@ form label {
 
 form input {
     padding: 0.75rem;
-    margin-top: 0.5rem;
+    margin-top: 0.75rem;
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 1rem;
 }
 
 form button {
-    margin-top: 1rem;
+    margin-top: 0.75rem;
     padding: 0.75rem;
     background-color: #6200ea;
     color: #fff;
@@ -149,8 +170,8 @@ li input[type="checkbox"] {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.6); /* dunklerer Hintergrund */
-    display: none; /* Standardmäßig ausgeblendet */
+    background-color: rgba(0, 0, 0, 0.6);
+    display: none;
     justify-content: center;
     align-items: center;
     z-index: 1000;
@@ -165,8 +186,8 @@ li input[type="checkbox"] {
     max-width: 450px;
     position: relative;
     animation: popIn 0.3s ease-out;
-    white-space: normal;       /* Erlaubt Zeilenumbrüche */
-    word-wrap: break-word;     /* Langer Text wird umgebrochen */
+    white-space: normal;
+    word-wrap: break-word;
 }
 
 @keyframes popIn {
@@ -189,7 +210,6 @@ li input[type="checkbox"] {
     cursor: pointer;
 }
 
-/* Optional: besondere Rahmenfarbe für die Popups "Neue Idee" und "Papierkorb" */
 #add-idea-popup .popup-content,
 #trash-popup .popup-content {
     border: 2px solid #6200ea;
@@ -229,27 +249,40 @@ li input[type="checkbox"] {
 .btn-group {
     display: flex;
     gap: 0.5rem;
-    justify-content: flex-end; /* Buttons rechtsbündig ausrichten */
-    align-items: center; /* Vertikal zentrieren */
-    margin-top: 0.5rem; /* Weniger Abstand zwischen dem Text und den Buttons */
+    justify-content: flex-end;
+    align-items: center;
+    margin-top: 0.5rem;
 }
 
 .btn-group button {
     background-color: #6200ea;
     color: #fff;
     border: none;
-    padding: 0.5rem 1rem; /* Kleinere Größe der Buttons */
+    height: 2.5rem;
+    padding: 0.5rem 1rem;
     border-radius: 4px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
-    font-size: 0.875rem; /* Kleinere Schriftgröße */
+    transition: background-color 0.3s ease, transform 0.1s ease;
+    font-size: var(--small-font-size);
     display: flex;
     align-items: center;
     justify-content: center;
+    box-sizing: border-box;
 }
 
 .btn-group button:hover {
     background-color: #3700b3;
+}
+
+/* Add active state to simulate a button press on mobile */
+.btn-group button:active {
+    transform: scale(0.95);
+    background-color: var(--accent-color);
+}
+
+/* Shift .btn-group buttons upward by 5px */
+.btn-group button {
+    margin-top: -8px;
 }
 
 #ideas-table {
@@ -270,26 +303,22 @@ li input[type="checkbox"] {
     font-weight: bold;
 }
 
-#ideas-table td:first-child {
-    width: 40px; /* Breite für die Checkbox-Spalte */
-    text-align: center;
+#ideas-table td:nth-child(1) {
+    width: calc(100% - 200px);
 }
 
 #ideas-table td:nth-child(2) {
-    width: calc(100% - 40px - 200px); /* Restliche Breite für die Videoidee-Spalte */
+    width: 100px;
 }
 
 #ideas-table td:nth-child(3) {
-    width: 100px; /* Breite für die Status-Spalte */
-}
-
-#ideas-table td:last-child {
-    width: 100px; /* Breite für die Aktionen-Spalte */
+    width: 100px;
 }
 
 #ideas-table select {
     width: 100%;
     padding: 0.5rem;
+    height: 2.5rem;
     border: 1px solid #ccc;
     border-radius: 4px;
     background-color: #fff;
@@ -303,26 +332,38 @@ li input[type="checkbox"] {
     border-color: #6200ea;
 }
 
+#ideas-table tr.planned {
+    background-color: #e0f7fa;
+}
+
+#ideas-table tr.in-progress {
+    background-color: #fff9c4;
+}
+
+#ideas-table tr.published {
+    background-color: #c8e6c9;
+}
+
 .text-container {
     display: flex;
     flex-direction: column;
     margin-bottom: 1rem;
-    word-wrap: break-word; /* Langer Text wird umgebrochen */
-    max-width: 100%; /* Begrenzung der maximalen Breite */
+    word-wrap: break-word;
+    max-width: 100%;
 }
 
 #trash .btn-group {
     display: flex;
     gap: 0.5rem;
-    margin-top: 1.5rem; /* Mehr Abstand zwischen dem Text und den Buttons */
-    justify-content: flex-end; /* Buttons rechtsbündig ausrichten */
+    margin-top: 1.5rem;
+    justify-content: flex-end;
 }
 
 #trash .btn-group button {
     background-color: #6200ea;
     color: #fff;
     border: none;
-    padding: 0.75rem 1.5rem; /* Ursprüngliche Größe der Buttons */
+    padding: 0.75rem 1.5rem;
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s ease;
@@ -338,34 +379,121 @@ li input[type="checkbox"] {
 }
 
 #filter-select {
-    padding: 0.5rem;
+    width: 100%;
+    max-width: 75px; /* reduced to half the previous width */
+    padding: 0.75rem;
     border: 1px solid #ccc;
     border-radius: 4px;
-    background-color: #fff;
-    color: #3700b3;
     font-size: 1rem;
     margin-bottom: 1rem;
-    cursor: pointer;
     transition: border-color 0.3s ease;
 }
 
-#filter-select:hover {
+#search-input {
+    width: 100%;
+    max-width: 150px; /* reduced from 200px to make it narrower */
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+#filter-select:hover, #search-input:hover {
     border-color: #6200ea;
 }
 
-#search-input {
-    padding: 0.5rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+.idea-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing);
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     width: 100%;
-    max-width: 200px; /* Adjusted width */
-    margin-bottom: 1rem;
+    max-width: 600px;
+}
+
+.search-container {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    margin-bottom: var(--spacing);
+}
+
+#add-idea-button {
+    background-color: #6200ea;
+    color: #fff;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
     font-size: 1rem;
+}
+
+#add-idea-button:hover {
+    background-color: #3700b3;
+}
+
+.filter-search-container {
+    display: grid;
+    grid-template-columns: 75px 1fr auto;
+    gap: 0.25rem;        /* reduced gap */
+    align-items: center;
+    margin-bottom: 0.5rem; /* reduced bottom margin */
+}
+
+.filter-search-container select {
+    width: 75px; /* fixed width for the filter */
+}
+
+.filter-search-container input {
+    width: 100%; /* fills available space */
+}
+
+.filter-search-container button {
+    background-color: #6200ea;
+    color: #fff;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 1rem;
+}
+
+.filter-search-container button:hover {
+    background-color: #3700b3;
+}
+
+/* Alternative Flex Layout for Filter, Search, and Plus Button */
+.filter-search-container {
+    display: flex;
+    flex-wrap: nowrap;       /* Prevent wrapping */
+    align-items: center;
+    gap: 0.25rem;           /* Reduced gap between elements */
+    margin-bottom: 0.5rem;   /* Reduced bottom margin */
+}
+
+.filter-search-container select {
+    flex: 0 0 75px;         /* Fixed width for filter */
+}
+
+.filter-search-container input {
+    flex: 1 1 auto;         /* Allow search field to stretch */
+    min-width: 0;           /* Prevent overflow */
+}
+
+.filter-search-container button {
+    flex: 0 0 auto;         /* Plus button remains its intrinsic size */
 }
 
 @media (max-width: 480px) {
     body {
         padding: 0 1rem;
+        font-size: 0.9rem;
     }
 
     header {
@@ -424,4 +552,265 @@ li input[type="checkbox"] {
         max-width: 100%;
         margin-bottom: 0.5rem;
     }
+
+    header h1 {
+        font-size: 1.2rem;
+    }
+
+    .header-nav button {
+        font-size: 0.9rem;
+        padding: 0.5rem 1rem;
+    }
+
+    .btn-group button {
+        font-size: 0.75rem;
+        padding: 0.5rem;
+    }
+}
+
+/* Updated layout for filter-search-container (all elements in one row) */
+.filter-search-container {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    margin-bottom: 0.5rem;
+}
+
+.filter-search-container select {
+    flex: 0 0 75px; /* Fixed width for filter */
+}
+
+.filter-search-container input {
+    flex: 1 1 auto;  /* Stretch the search box */
+    max-width: 150px;
+}
+
+.filter-search-container button {
+    flex: 0 0 auto;  /* Plus button remains its intrinsic size */
+}
+
+/* NEW OVERRIDE: Force a clean flex layout for filter-search-container */
+.filter-search-container {
+    display: flex !important;
+    align-items: center;
+    gap: 0.25rem;
+    margin-bottom: 0.5rem;
+}
+
+/* Reset common styles for direct children */
+.filter-search-container select,
+.filter-search-container input,
+.filter-search-container button {
+    display: inline-flex;
+    align-items: center;
+    margin: 0;
+    padding: 0.5rem; /* Consistent padding */
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* Fixed width for filter select */
+.filter-search-container select {
+    flex: 0 0 75px;
+    max-width: 75px;
+}
+
+/* Let search input stretch, up to 150px */
+.filter-search-container input {
+    flex: 1 1 auto;
+    max-width: 150px;
+}
+
+/* Plus button styles (ensuring same vertical alignment) */
+.filter-search-container button {
+    flex: 0 0 auto;
+    background-color: #6200ea;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.filter-search-container button:hover {
+    background-color: #3700b3;
+}
+
+/* NEW OVERRIDE: Inline-block layout for filter, search, and plus button */
+.filter-search-container {
+    white-space: nowrap;
+}
+.filter-search-container select,
+.filter-search-container input,
+.filter-search-container button {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 0.25rem;
+}
+.filter-search-container select {
+    width: 75px;
+}
+.filter-search-container input {
+    width: 150px;
+}
+
+/* Alternative Flex Layout with explicit margins for a single line */
+.filter-search-container {
+    display: flex !important;
+    flex-wrap: nowrap;
+    align-items: center;
+}
+
+.filter-search-container label {
+    margin-right: 0.25rem;
+    white-space: nowrap;
+}
+
+.filter-search-container select {
+    width: 75px;
+    margin-right: 0.25rem;
+}
+
+.filter-search-container input {
+    width: 150px;
+    margin-right: 0.25rem;
+}
+
+.filter-search-container button {
+    margin: 0;
+}
+
+/* Updated Clean Flex Layout for Filter, Search, and Plus Button */
+.filter-search-container {
+    display: flex !important;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 10px;  /* Adjust spacing as needed */
+    white-space: nowrap;
+}
+.filter-search-container label {
+    margin-right: 5px;
+}
+.filter-search-container select {
+    width: 75px;
+    padding: 0.5rem;
+    box-sizing: border-box;
+}
+.filter-search-container input {
+    width: 150px;
+    padding: 0.5rem;
+    box-sizing: border-box;
+}
+.filter-search-container button {
+    padding: 0.5rem 1rem;
+    box-sizing: border-box;
+    background-color: #6200ea;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.filter-search-container button:hover {
+    background-color: #3700b3;
+}
+
+/* NEW SOLUTION: Single-line flex layout for filter, search, and plus button */
+.filter-search-container {
+    display: flex !important;  /* force flex layout */
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.filter-search-container label {
+    margin: 0;
+    white-space: nowrap;
+}
+
+.filter-search-container select {
+    width: 75px;
+    flex-shrink: 0;
+}
+
+.filter-search-container input {
+    width: 150px;
+    flex-grow: 1;
+    flex-shrink: 0;
+}
+
+.filter-search-container button {
+    flex-shrink: 0;
+}
+
+/* ...existing code... */
+.filter-search-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.filter-search-container button {
+    margin-left: auto;  /* push plus button to the right edge within this container */
+}
+.filter-search-container button {
+    margin-top: -15px;
+}
+
+/* Make the search input box wider */
+#search-input {
+    width: 200px !important;
+    max-width: 300px !important;
+}
+
+/* Update the search input to fill the available space until the plus button */
+.filter-search-container input {
+    flex-grow: 1;
+    width: auto;
+    max-width: none !important;
+}
+
+/* Shift the "Filter:" label upward by 10px */
+.filter-search-container label {
+    margin-top: -17px;
+}
+
+/* Add visually-hidden class to completely hide elements */
+.visually-hidden {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+}
+
+/* Increase dropdown widths */
+#filter-select,
+.filter-search-container select {
+    max-width: 130px !important;
+    width: auto;
+}
+
+/* Enhanced styling and smoother fade-in for the video popup content */
+#video-popup .popup-content {
+    /* Enhanced padding, border radius, and box-shadow for a professional look */
+    padding: 2rem;
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+    /* Smooth fade-in and subtle upward movement */
+    animation: fadeInPopup 0.5s ease;
+}
+@keyframes fadeInPopup {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+/* Increase the close button size for better usability */
+#video-popup .popup-content .close {
+    font-size: 2.5rem;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
 }

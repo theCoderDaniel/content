@@ -1,15 +1,11 @@
 document.addEventListener('DOMContentLoaded', () => {
     const ideasTableBody = document.querySelector('#ideas-table tbody');
-    const trashUl = document.getElementById('trash');
     const ideaForm = document.getElementById('idea-form');
     const ideaText = document.getElementById('idea-text');
     const ideaLink = document.getElementById('idea-link');
     const addIdeaButton = document.getElementById('add-idea-button');
-    const trashIcon = document.getElementById('trash-icon');
     const addIdeaPopup = document.getElementById('add-idea-popup');
-    const trashPopup = document.getElementById('trash-popup');
     const closeAddIdea = document.getElementById('close-add-idea');
-    const closeTrash = document.getElementById('close-trash');
     const videoPopup = document.getElementById('video-popup');
     const closeVideoPopup = document.getElementById('close-video-popup');
     const videoTitle = document.getElementById('video-title');
@@ -23,21 +19,19 @@ document.addEventListener('DOMContentLoaded', () => {
         addIdeaPopup.style.display = 'flex';
     });
 
-    trashIcon.addEventListener('click', () => {
-        loadTrash();
-        trashPopup.style.display = 'flex';
-    });
-
     closeAddIdea.addEventListener('click', () => {
         addIdeaPopup.style.display = 'none';
     });
 
-    closeTrash.addEventListener('click', () => {
-        trashPopup.style.display = 'none';
-    });
-
     closeVideoPopup.addEventListener('click', () => {
         videoPopup.style.display = 'none';
+    });
+
+    // Add close-on-overlay-click for video popup
+    videoPopup.addEventListener('click', (e) => {
+        if (e.target === videoPopup) {
+            videoPopup.style.display = 'none';
+        }
     });
 
     ideaForm.addEventListener('submit', (e) => {
@@ -57,8 +51,15 @@ document.addEventListener('DOMContentLoaded', () => {
         searchIdeas(searchInput.value);
     });
 
-    function showVideoPopup(text, link) {
+    function showVideoPopup(text, link, publishedDate) {
         videoTitle.innerText = text;
+        const publishedDateElement = document.getElementById('published-date');
+        if (publishedDate) {
+            publishedDateElement.innerText = `Veröffentlicht am: ${new Date(publishedDate).toLocaleDateString()}`;
+            publishedDateElement.style.display = 'block';
+        } else {
+            publishedDateElement.style.display = 'none';
+        }
         goToVideoButton.onclick = () => {
             window.open(link, '_blank');
         };
@@ -70,22 +71,17 @@ document.addEventListener('DOMContentLoaded', () => {
         return text.length > maxLength ? text.slice(0, maxLength) + '...' : text;
     }
     
-    function addIdea(text, link, status = 'planned') {
+    function addIdea(text, link, status = 'planned', publishedDate = null) {
         if (isIdeaPresent(text, link)) { return; }
         const tr = document.createElement('tr');
-        const tdCheckbox = document.createElement('td');
-        const checkbox = document.createElement('input');
-        checkbox.type = 'checkbox';
-        checkbox.addEventListener('change', () => {
-            toggleIdeaCompletion(text, link, tr, checkbox);
-        });
-        tdCheckbox.appendChild(checkbox);
+        tr.dataset.publishedDate = publishedDate || "";
+        
         const tdTitle = document.createElement('td');
         const span = document.createElement('span');
-        // Anzeige auf 30 Zeichen begrenzen
         span.textContent = truncateText(text, 30);
-        span.title = text; // Vollständiger Text als Tooltip
+        span.title = text;
         tdTitle.appendChild(span);
+        
         const tdStatus = document.createElement('td');
         const statusSelect = document.createElement('select');
         statusSelect.innerHTML = `
@@ -95,38 +91,48 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
         statusSelect.value = status;
         statusSelect.addEventListener('change', () => {
-            updateIdeaStatus(text, link, statusSelect.value);
+            const newStatus = statusSelect.value;
+            let newPublishedDate = "";
+            if (newStatus === 'published') {
+                newPublishedDate = new Date().toISOString();
+            }
+            updateIdeaStatus(text, link, newStatus, newPublishedDate);
+            tr.className = newStatus;
+            tr.dataset.publishedDate = newPublishedDate;
         });
         tdStatus.appendChild(statusSelect);
+        
         const tdActions = document.createElement('td');
         const btnGroup = document.createElement('div');
         btnGroup.className = 'btn-group';
-
+        
         const viewButton = document.createElement('button');
-        viewButton.textContent = 'Ansehen';
+        viewButton.innerHTML = '👁';
+        viewButton.title = 'Ansehen';
         viewButton.addEventListener('click', () => {
-            showVideoPopup(text, link);
+            showVideoPopup(text, link, tr.dataset.publishedDate);
         });
-
+        
         const deleteButton = document.createElement('button');
-        deleteButton.innerHTML = '&#128465;'; // Trash icon
+        deleteButton.innerHTML = '🗑';
+        deleteButton.title = 'Löschen';
         deleteButton.addEventListener('click', () => {
             if (confirm('Möchten Sie die Idee wirklich löschen?')) {
                 removeIdea(text, link);
-                saveTrash(text, link);
                 tr.remove();
             }
         });
-
+        
         btnGroup.appendChild(viewButton);
         btnGroup.appendChild(deleteButton);
         tdActions.appendChild(btnGroup);
-        tr.appendChild(tdCheckbox);
+        
         tr.appendChild(tdTitle);
         tr.appendChild(tdStatus);
         tr.appendChild(tdActions);
+        tr.className = status;
         ideasTableBody.appendChild(tr);
-        saveIdea(text, link, status);
+        saveIdea(text, link, status, publishedDate);
     }
 
     function editIdea(oldText, oldLink, tr) {
@@ -143,19 +149,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const ideas = JSON.parse(localStorage.getItem('ideas')) || [];
         ideas.forEach(idea => {
             const tr = document.createElement('tr');
-            const tdCheckbox = document.createElement('td');
-            const checkbox = document.createElement('input');
-            checkbox.type = 'checkbox';
-            checkbox.checked = idea.completed;
-            checkbox.addEventListener('change', () => {
-                toggleIdeaCompletion(idea.text, idea.link, tr, checkbox);
-            });
-            tdCheckbox.appendChild(checkbox);
+            tr.dataset.publishedDate = idea.publishedDate || "";
             const tdTitle = document.createElement('td');
             const span = document.createElement('span');
-            // Anzeige auf 30 Zeichen begrenzen
             span.textContent = truncateText(idea.text, 30);
-            span.title = idea.text; // Vollständiger Text als Tooltip
+            span.title = idea.text;
             tdTitle.appendChild(span);
             const tdStatus = document.createElement('td');
             const statusSelect = document.createElement('select');
@@ -166,104 +164,46 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
             statusSelect.value = idea.status || 'planned';
             statusSelect.addEventListener('change', () => {
-                updateIdeaStatus(idea.text, idea.link, statusSelect.value);
+                const newStatus = statusSelect.value;
+                let newPublishedDate = "";
+                if (newStatus === 'published') {
+                    newPublishedDate = new Date().toISOString();
+                }
+                updateIdeaStatus(idea.text, idea.link, newStatus, newPublishedDate);
+                tr.className = newStatus;
+                tr.dataset.publishedDate = newPublishedDate;
             });
             tdStatus.appendChild(statusSelect);
             const tdActions = document.createElement('td');
             const btnGroup = document.createElement('div');
             btnGroup.className = 'btn-group';
-
+        
             const viewButton = document.createElement('button');
-            viewButton.textContent = 'Ansehen';
+            viewButton.innerHTML = '👁';
+            viewButton.title = 'Ansehen';
             viewButton.addEventListener('click', () => {
-                showVideoPopup(idea.text, idea.link);
+                showVideoPopup(idea.text, idea.link, tr.dataset.publishedDate);
             });
-
+        
             const deleteButton = document.createElement('button');
-            deleteButton.innerHTML = '&#128465;'; // Trash icon
+            deleteButton.innerHTML = '🗑';
+            deleteButton.title = 'Löschen';
             deleteButton.addEventListener('click', () => {
                 if (confirm('Möchten Sie die Idee wirklich löschen?')) {
                     removeIdea(idea.text, idea.link);
-                    saveTrash(idea.text, idea.link);
                     tr.remove();
                 }
             });
-
+        
             btnGroup.appendChild(viewButton);
             btnGroup.appendChild(deleteButton);
             tdActions.appendChild(btnGroup);
-            tr.appendChild(tdCheckbox);
             tr.appendChild(tdTitle);
             tr.appendChild(tdStatus);
             tr.appendChild(tdActions);
-            if (idea.completed) {
-                tr.classList.add('completed');
-            }
+            tr.className = idea.status || 'planned';
             ideasTableBody.appendChild(tr);
         });
-    }
-
-    function loadTrash() {
-        const trash = JSON.parse(localStorage.getItem('trash')) || [];
-        trashUl.innerHTML = ''; // Alte Einträge entfernen
-        trash.forEach((item, index) => {
-            const li = document.createElement('li');
-            
-            // Container für Text und Datum
-            const textContainer = document.createElement('div');
-            textContainer.className = 'text-container';
-            
-            // Span für den Text (gekürzt) mit Tooltip
-            const textSpan = document.createElement('span');
-            textSpan.textContent = truncateText(item.text, 20); // Kürzerer Text
-            textSpan.title = item.text;
-            textContainer.appendChild(textSpan);
-            
-            // Neue Zeile für das Datum
-            const dateSpan = document.createElement('div');
-            dateSpan.textContent = new Date(item.date).toLocaleString(); // Nur das Datum
-            textContainer.appendChild(dateSpan);
-            
-            li.appendChild(textContainer);
-            
-            // Button-Gruppe unterhalb des Textes
-            const btnGroup = document.createElement('div');
-            btnGroup.className = 'btn-group';
-            
-            const restoreButton = document.createElement('button');
-            restoreButton.textContent = 'Wiederherstellen';
-            restoreButton.addEventListener('click', () => {
-                if (confirm('Möchten Sie die Idee wiederherstellen?')) {
-                    restoreTrash(index);
-                    li.remove();
-                    reloadIdeasTable();
-                }
-            });
-            
-            const permanentDeleteButton = document.createElement('button');
-            permanentDeleteButton.textContent = 'Löschen'; // Text geändert
-            permanentDeleteButton.addEventListener('click', () => {
-                if (confirm('Möchten Sie die Idee endgültig löschen?')) {
-                    removeTrash(index);
-                    li.remove();
-                }
-            });
-            
-            btnGroup.appendChild(restoreButton);
-            btnGroup.appendChild(permanentDeleteButton);
-            li.appendChild(btnGroup);
-            
-            trashUl.appendChild(li);
-        });
-    }
-
-    function restoreTrash(index) {
-        const trash = JSON.parse(localStorage.getItem('trash')) || [];
-        const [restoredItem] = trash.splice(index, 1);
-        localStorage.setItem('trash', JSON.stringify(trash));
-        const ideas = JSON.parse(localStorage.getItem('ideas')) || [];
-        ideas.push({ text: restoredItem.text, link: restoredItem.link });
-        localStorage.setItem('ideas', JSON.stringify(ideas));
     }
 
     function reloadIdeasTable() {
@@ -272,9 +212,9 @@ document.addEventListener('DOMContentLoaded', () => {
         loadIdeas();
     }
 
-    function saveIdea(text, link, status) {
+    function saveIdea(text, link, status, publishedDate) {
         const ideas = JSON.parse(localStorage.getItem('ideas')) || [];
-        ideas.push({ text, link, status });
+        ideas.push({ text, link, status, publishedDate });
         localStorage.setItem('ideas', JSON.stringify(ideas));
     }
 
@@ -289,33 +229,16 @@ document.addEventListener('DOMContentLoaded', () => {
         return ideas.some(idea => idea.text === text && idea.link === link);
     }
 
-    function saveTrash(text, link) {
-        const trash = JSON.parse(localStorage.getItem('trash')) || [];
-        trash.push({ text, link, date: new Date().toISOString() });
-        localStorage.setItem('trash', JSON.stringify(trash));
-    }
-
-    function removeTrash(index) {
-        const trash = JSON.parse(localStorage.getItem('trash')) || [];
-        trash.splice(index, 1);
-        localStorage.setItem('trash', JSON.stringify(trash));
-    }
-
-    function toggleIdeaCompletion(text, link, tr, checkbox) {
-        const ideas = JSON.parse(localStorage.getItem('ideas')) || [];
-        const idea = ideas.find(idea => idea.text === text && idea.link === link);
-        if (idea) {
-            idea.completed = checkbox.checked;
-            localStorage.setItem('ideas', JSON.stringify(ideas));
-            tr.classList.toggle('completed', idea.completed);
-        }
-    }
-
-    function updateIdeaStatus(text, link, status) {
+    function updateIdeaStatus(text, link, status, publishedDate = null) {
         const ideas = JSON.parse(localStorage.getItem('ideas')) || [];
         const idea = ideas.find(idea => idea.text === text && idea.link === link);
         if (idea) {
             idea.status = status;
+            if (status === 'published' && !idea.publishedDate) {
+                idea.publishedDate = new Date().toISOString();
+            } else if(status !== 'published'){
+                idea.publishedDate = null;
+            }
             localStorage.setItem('ideas', JSON.stringify(ideas));
         }
     }
@@ -323,8 +246,8 @@ document.addEventListener('DOMContentLoaded', () => {
     function filterIdeas(filter) {
         const rows = ideasTableBody.querySelectorAll('tr');
         rows.forEach(row => {
-            const isCompleted = row.classList.contains('completed');
-            if (filter === 'all' || (filter === 'completed' && isCompleted) || (filter === 'incomplete' && !isCompleted)) {
+            const status = row.querySelector('select').value;
+            if (filter === 'all' || filter === status) {
                 row.style.display = '';
             } else {
                 row.style.display = 'none';
@@ -335,7 +258,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function searchIdeas(query) {
         const rows = ideasTableBody.querySelectorAll('tr');
         rows.forEach(row => {
-            const text = row.querySelector('td:nth-child(2) span').textContent.toLowerCase();
+            const text = row.querySelector('td:nth-child(1) span').textContent.toLowerCase();
             if (text.includes(query.toLowerCase())) {
                 row.style.display = '';
             } else {

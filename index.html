@@ -9,22 +9,25 @@
 </head>
 <body>
     <header>
-        <h1>Videoideen</h1>
+        <h1>Mein Content Planner</h1>
     </header>
     <main>
         <section id="ideas-list">
             <h2>Alle Videoideen</h2>
-            <label for="filter-select">Filter:</label>
-            <select id="filter-select">
-                <option value="all">Alle</option>
-                <option value="completed">Erledigt</option>
-                <option value="incomplete">Nicht erledigt</option>
-            </select>
-            <input type="text" id="search-input" placeholder="Suche nach Ideen...">
+            <div class="filter-search-container">
+                <label for="filter-select" class="visually-hidden">Filter:</label>
+                <select id="filter-select">
+                    <option value="all">Alle</option>
+                    <option value="planned">Geplant</option>
+                    <option value="in-progress">In Bearbeitung</option>
+                    <option value="published">Veröffentlicht</option>
+                </select>
+                <input type="text" id="search-input" placeholder="Suche nach Ideen...">
+                <button id="add-idea-button" title="Neue Idee hinzufügen">+</button>
+            </div>
             <table id="ideas-table">
                 <thead>
                     <tr>
-                        <th></th> <!-- Checkbox column -->
                         <th>Videoidee</th>
                         <th>Status</th>
                         <th>Aktionen</th>
@@ -35,10 +38,6 @@
                 </tbody>
             </table>
         </section>
-        <div class="buttons">
-            <button id="add-idea-button">Neue Idee hinzufügen</button>
-            <button id="trash-icon">&#128465;</button>
-        </div>
     </main>
     <div id="add-idea-popup" class="popup hidden">
         <div class="popup-content">
@@ -53,19 +52,11 @@
             </form>
         </div>
     </div>
-    <div id="trash-popup" class="popup hidden">
-        <div class="popup-content">
-            <span class="close" id="close-trash">&times;</span>
-            <h2>Papierkorb</h2>
-            <ul id="trash">
-                <!-- Abgehakte Ideen werden hier dynamisch hinzugefügt -->
-            </ul>
-        </div>
-    </div>
     <div id="video-popup" class="popup hidden">
         <div class="popup-content">
             <span class="close" id="close-video-popup">&times;</span>
             <h2 id="video-title"></h2>
+            <p id="published-date" style="display:none;"></p>
             <button id="go-to-video">Zum Video</button>
         </div>
     </div>
