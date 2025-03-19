@@ -757,7 +757,7 @@ li input[type="checkbox"] {
 /* Make the search input box wider */
 #search-input {
     width: 200px !important;
-    max-width: 300px !important;
+    max-width: 169px !important;
 }
 
 /* Update the search input to fill the available space until the plus button */
@@ -844,4 +844,9 @@ li input[type="checkbox"] {
         flex: 0 0 auto;
         margin: 0;
     }
+}
+
+/* Shift the plus button 20px to the left */
+.filter-search-container button {
+    transform: translateX(-60px);
 }
