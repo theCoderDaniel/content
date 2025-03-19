@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return text.length > maxLength ? text.slice(0, maxLength) + '...' : text;
     }
     
-    function addIdea(text, link) {
+    function addIdea(text, link, status = 'planned') {
         if (isIdeaPresent(text, link)) { return; }
         const tr = document.createElement('tr');
         const tdCheckbox = document.createElement('td');
@@ -86,6 +86,18 @@ document.addEventListener('DOMContentLoaded', () => {
         span.textContent = truncateText(text, 30);
         span.title = text; // Vollständiger Text als Tooltip
         tdTitle.appendChild(span);
+        const tdStatus = document.createElement('td');
+        const statusSelect = document.createElement('select');
+        statusSelect.innerHTML = `
+            <option value="planned">Geplant</option>
+            <option value="in-progress">In Bearbeitung</option>
+            <option value="published">Veröffentlicht</option>
+        `;
+        statusSelect.value = status;
+        statusSelect.addEventListener('change', () => {
+            updateIdeaStatus(text, link, statusSelect.value);
+        });
+        tdStatus.appendChild(statusSelect);
         const tdActions = document.createElement('td');
         const btnGroup = document.createElement('div');
         btnGroup.className = 'btn-group';
@@ -111,9 +123,10 @@ document.addEventListener('DOMContentLoaded', () => {
         tdActions.appendChild(btnGroup);
         tr.appendChild(tdCheckbox);
         tr.appendChild(tdTitle);
+        tr.appendChild(tdStatus);
         tr.appendChild(tdActions);
         ideasTableBody.appendChild(tr);
-        saveIdea(text, link);
+        saveIdea(text, link, status);
     }
 
     function editIdea(oldText, oldLink, tr) {
@@ -144,6 +157,18 @@ document.addEventListener('DOMContentLoaded', () => {
             span.textContent = truncateText(idea.text, 30);
             span.title = idea.text; // Vollständiger Text als Tooltip
             tdTitle.appendChild(span);
+            const tdStatus = document.createElement('td');
+            const statusSelect = document.createElement('select');
+            statusSelect.innerHTML = `
+                <option value="planned">Geplant</option>
+                <option value="in-progress">In Bearbeitung</option>
+                <option value="published">Veröffentlicht</option>
+            `;
+            statusSelect.value = idea.status || 'planned';
+            statusSelect.addEventListener('change', () => {
+                updateIdeaStatus(idea.text, idea.link, statusSelect.value);
+            });
+            tdStatus.appendChild(statusSelect);
             const tdActions = document.createElement('td');
             const btnGroup = document.createElement('div');
             btnGroup.className = 'btn-group';
@@ -169,6 +194,7 @@ document.addEventListener('DOMContentLoaded', () => {
             tdActions.appendChild(btnGroup);
             tr.appendChild(tdCheckbox);
             tr.appendChild(tdTitle);
+            tr.appendChild(tdStatus);
             tr.appendChild(tdActions);
             if (idea.completed) {
                 tr.classList.add('completed');
@@ -246,9 +272,9 @@ document.addEventListener('DOMContentLoaded', () => {
         loadIdeas();
     }
 
-    function saveIdea(text, link) {
+    function saveIdea(text, link, status) {
         const ideas = JSON.parse(localStorage.getItem('ideas')) || [];
-        ideas.push({ text, link });
+        ideas.push({ text, link, status });
         localStorage.setItem('ideas', JSON.stringify(ideas));
     }
 
@@ -282,6 +308,15 @@ document.addEventListener('DOMContentLoaded', () => {
             idea.completed = checkbox.checked;
             localStorage.setItem('ideas', JSON.stringify(ideas));
             tr.classList.toggle('completed', idea.completed);
+        }
+    }
+
+    function updateIdeaStatus(text, link, status) {
+        const ideas = JSON.parse(localStorage.getItem('ideas')) || [];
+        const idea = ideas.find(idea => idea.text === text && idea.link === link);
+        if (idea) {
+            idea.status = status;
+            localStorage.setItem('ideas', JSON.stringify(ideas));
         }
     }
 
