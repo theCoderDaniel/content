@@ -848,5 +848,6 @@ li input[type="checkbox"] {
 
 /* Shift the plus button 20px to the left */
 .filter-search-container button {
-    transform: translateX(-60px);
+    transform: translateX(-0px);
 }
+
