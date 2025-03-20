@@ -937,6 +937,14 @@ filter-search-container button {
     transform-origin: bottom right;
 }
 
+/* Override plus button: Increase size, shift upward, and add left margin */
+.filter-search-container button {
+    width: 50px !important;
+    height: 50px !important;
+    transform: translateY(-6px) !important;
+    margin-left: 10px !important;
+}
+
 @media (max-width: 414px) {
     /* Anpassungen für ein 6.67‑Zoll (16.94 cm) Display */
     header, main {
