@@ -616,6 +616,11 @@ li input[type="checkbox"] {
         transform: none;
         line-height: 1;
     }
+
+    /* Shift the plus button slightly to the right */
+    .filter-search-container button {
+        margin-left: 10px;
+    }
 }
 
 /* Updated layout for filter-search-container (all elements in one row) */
