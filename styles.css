@@ -987,3 +987,102 @@ filter-search-container button {
     padding: 0 1rem !important; /* adjust horizontal padding if needed */
 }
 /* ...existing code... */
+
+/* ...existing code... */
+
+.filter-search-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.filter-search-container select,
+.filter-search-container input,
+.filter-search-container button {
+    height: 40px;
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.filter-search-container select {
+    width: 75px;
+}
+
+.filter-search-container input {
+    flex: 1;
+}
+
+.filter-search-container button {
+    background-color: #6200ea;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 1rem;
+    margin-left: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.filter-search-container button:hover {
+    background-color: #3700b3;
+}
+
+/* ...existing code... */
+
+@media (max-width: 480px) {
+    /* Ensure header and main span full width */
+    header, main {
+        width: 100%;
+        margin: 0;
+        padding: 1rem;
+        box-sizing: border-box;
+    }
+    /* Set filter/search container to use full width and proper spacing */
+    .filter-search-container {
+        display: flex !important;
+        flex-wrap: nowrap;
+        width: 100%;
+        padding: 0 0.5rem;
+        box-sizing: border-box;
+    }
+    .filter-search-container select,
+    .filter-search-container input,
+    .filter-search-container button {
+        height: 40px;
+        padding: 0.5rem;
+        font-size: 1rem;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+    .filter-search-container select {
+        flex: 0 0 75px;
+        margin-right: 0.5rem;
+    }
+    .filter-search-container input {
+        flex: 1 1 auto;
+        width: auto;
+        margin: 0;
+    }
+    .filter-search-container button {
+        flex: 0 0 auto;
+        margin: 0;
+        background-color: #6200ea;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0 1rem;
+        margin-left: 10px;
+        transition: background-color 0.3s ease;
+    }
+    .filter-search-container button:hover {
+        background-color: #3700b3;
+    }
+}
