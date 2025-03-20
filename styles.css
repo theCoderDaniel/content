@@ -621,6 +621,21 @@ li input[type="checkbox"] {
     .filter-search-container button {
         margin-left: 10px;
     }
+
+    /* Make the view and delete buttons square with black & white icons */
+    .btn-group button {
+         width: 40px !important;
+         height: 40px !important;
+         background-color: #fff !important;
+         color: #000 !important;
+         padding: 0 !important;
+         margin: 0 0.25rem !important;
+         border-radius: 4px;
+         display: flex;
+         align-items: center;
+         justify-content: center;
+         font-size: 1rem;
+    }
 }
 
 /* Updated layout for filter-search-container (all elements in one row) */
@@ -805,7 +820,7 @@ li input[type="checkbox"] {
 .filter-search-container button {
     margin-left: auto;  /* push plus button to the right edge within this container */
 }
-.filter-search-container button {
+filter-search-container button {
     margin-top: -15px;
 }
 
