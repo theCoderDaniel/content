@@ -1086,3 +1086,9 @@ filter-search-container button {
         background-color: #3700b3;
     }
 }
+
+/* ...existing code... */
+.filter-search-container button {
+    transform: translateY(4px);
+}
+/* ...existing code... */
